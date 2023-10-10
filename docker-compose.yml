@@ -1,0 +1,42 @@
+version: "3.3"
+
+services:
+  leantime_db:
+    image: elestio/mysql:8.0
+    restart: always
+    env_file: ./.env
+    volumes:
+      - ./storage/db_data:/var/lib/mysql
+    command: --character-set-server=UTF8MB4 --collation-server=UTF8MB4_unicode_ci
+    ports:
+      - 172.17.0.1:5193:3306
+
+  leantime:
+    image: leantime/leantime:latest
+    restart: always
+    env_file: ./.env
+    volumes:
+      - ./storage/public_userfiles:/var/www/html/public/userfiles
+      - ./storage/userfiles:/var/www/html/userfiles
+    ports:
+      - "172.17.0.1:41013:80"
+    depends_on:
+      - leantime_db
+
+  pma:
+    image: phpmyadmin
+    restart: always
+    links:
+      - leantime_db:leantime_db
+    ports:
+      - "172.17.0.1:29477:80"
+    environment:
+      PMA_HOST: leantime_db
+      PMA_PORT: 3306
+      PMA_USER: root
+      PMA_PASSWORD: ${SOFTWARE_PASSWORD}
+      UPLOAD_LIMIT: 500M
+      MYSQL_USERNAME: root
+      MYSQL_ROOT_PASSWORD: ${SOFTWARE_PASSWORD}
+    depends_on:
+      - mysql
