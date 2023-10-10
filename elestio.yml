@@ -25,6 +25,10 @@ ports:
     targetPort: "5193"
     public: true
 environments:
+  - key: "ADMIN_EMAIL"
+    value: "[EMAIL]"
+  - key: "ADMIN_PASSWORD"
+    value: "random_password"
   - key: "DOMAIN"
     value: "[CI_CD_DOMAIN]"
   - key: "LEAN_APP_URL"
