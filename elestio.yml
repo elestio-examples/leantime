@@ -104,7 +104,3 @@ webUI:
     label: "Leantime"
     login: "[ADMIN_EMAIL]"
     password: "[ADMIN_PASSWORD]"
-  - url: "https://[CI_CD_DOMAIN]:56882"
-    label: "PgAdmin"
-    login: "[ADMIN_EMAIL]"
-    password: "[ADMIN_PASSWORD]"
