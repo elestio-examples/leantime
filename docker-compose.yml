@@ -12,7 +12,7 @@ services:
       - 172.17.0.1:5193:3306
 
   leantime:
-    image: leantime/leantime:latest
+    image: leantime/leantime:${SOFTWARE_VERSION_TAG}
     restart: always
     env_file: ./.env
     volumes:
