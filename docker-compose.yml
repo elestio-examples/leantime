@@ -12,7 +12,7 @@ services:
       - 172.17.0.1:5193:3306
 
   leantime:
-    image: leantime/leantime:${SOFTWARE_VERSION_TAG}
+    image: elestio/leantime:${SOFTWARE_VERSION_TAG}
     restart: always
     env_file: ./.env
     volumes:
@@ -24,7 +24,7 @@ services:
       - leantime_db
 
   pma:
-    image: phpmyadmin
+    image: elestio/phpmyadmin:latest
     restart: always
     links:
       - leantime_db:leantime_db
