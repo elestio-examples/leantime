@@ -37,54 +37,54 @@ Run the project with the following command
 
     docker-compose up -d
 
-You can access the Web UI at: `http://your-domain:6580`
+You can access the Web UI at: `http://your-domain:41013`
 
 ## Docker-compose
 
 Here are some example snippets to help you get started creating a container.
 
-  version: "3.3"
-
-  services:
-    leantime_db:
-      image: elestio/mysql:8.0
-      restart: always
-      env_file: ./.env
-      volumes:
-        - ./storage/db_data:/var/lib/mysql
-      command: --character-set-server=UTF8MB4 --collation-server=UTF8MB4_unicode_ci
-      ports:
-        - 172.17.0.1:5193:3306
-
-    leantime:
-      image: elestio4test/leantime:${SOFTWARE_VERSION_TAG}
-      restart: always
-      env_file: ./.env
-      volumes:
-        - ./storage/public_userfiles:/var/www/html/public/userfiles
-        - ./storage/userfiles:/var/www/html/userfiles
-      ports:
-        - "172.17.0.1:41013:80"
-      depends_on:
-        - leantime_db
-
-    pma:
-      image: phpmyadmin
-      restart: always
-      links:
-        - leantime_db:leantime_db
-      ports:
-        - "172.17.0.1:29477:80"
-      environment:
-        PMA_HOST: leantime_db
-        PMA_PORT: 3306
-        PMA_USER: root
-        PMA_PASSWORD: ${ADMIN_PASSWORD}
-        UPLOAD_LIMIT: 500M
-        MYSQL_USERNAME: root
-        MYSQL_ROOT_PASSWORD: ${ADMIN_PASSWORD}
-      depends_on:
-        - leantime_db
+      version: "3.3"
+    
+      services:
+        leantime_db:
+          image: elestio/mysql:8.0
+          restart: always
+          env_file: ./.env
+          volumes:
+            - ./storage/db_data:/var/lib/mysql
+          command: --character-set-server=UTF8MB4 --collation-server=UTF8MB4_unicode_ci
+          ports:
+            - 172.17.0.1:5193:3306
+    
+        leantime:
+          image: elestio4test/leantime:${SOFTWARE_VERSION_TAG}
+          restart: always
+          env_file: ./.env
+          volumes:
+            - ./storage/public_userfiles:/var/www/html/public/userfiles
+            - ./storage/userfiles:/var/www/html/userfiles
+          ports:
+            - "172.17.0.1:41013:80"
+          depends_on:
+            - leantime_db
+    
+        pma:
+          image: phpmyadmin
+          restart: always
+          links:
+            - leantime_db:leantime_db
+          ports:
+            - "172.17.0.1:29477:80"
+          environment:
+            PMA_HOST: leantime_db
+            PMA_PORT: 3306
+            PMA_USER: root
+            PMA_PASSWORD: ${ADMIN_PASSWORD}
+            UPLOAD_LIMIT: 500M
+            MYSQL_USERNAME: root
+            MYSQL_ROOT_PASSWORD: ${ADMIN_PASSWORD}
+          depends_on:
+            - leantime_db
 
 
 ### Environment variables
